@@ -1,0 +1,36 @@
+{
+    "name": "shokme/laravel-actito",
+    "description": "Actito API wrapper for laravel",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Shokme\\Actito\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Shokme\\Actito\\Tests\\": "tests"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Shokme\\Actito\\ActitoServiceProvider"
+            ],
+            "aliases": {
+                "Actito": "Shokme\\Actito\\Facades\\Actito"
+            }
+        }
+    },
+    "authors": [
+        {
+            "name": "Jordan Massart",
+            "email": "hello@jordan-massart.be"
+        }
+    ],
+    "require-dev": {
+        "orchestra/testbench": "^7.5",
+        "phpunit/phpunit": "^9.5"
+    }
+}
