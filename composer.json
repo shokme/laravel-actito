@@ -19,7 +19,14 @@
                 "Shokme\\Actito\\ActitoServiceProvider"
             ],
             "aliases": {
-                "Actito": "Shokme\\Actito\\Facades\\Actito"
+                "Actito": "Shokme\\Actito\\Facades\\Actito",
+                "Profile": "Shokme\\Actito\\Facades\\Profile",
+                "Table": "Shokme\\Actito\\Facades\\Table",
+                "Email": "Shokme\\Actito\\Facades\\Email",
+                "Webhook": "Shokme\\Actito\\Facades\\Webhook",
+                "Action": "Shokme\\Actito\\Facades\\Action",
+                "Form": "Shokme\\Actito\\Facades\\Form",
+                "Import": "Shokme\\Actito\\Facades\\Import"
             }
         }
     },

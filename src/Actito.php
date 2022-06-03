@@ -14,13 +14,7 @@ use Shokme\Actito\Endpoints\Webhook;
 
 class Actito
 {
-    public string $entity;
-
-    public string $key;
-
-    public string $version;
-
-    public PendingRequest $client;
+    private PendingRequest $client;
 
     public Profile $profile;
 
@@ -38,9 +32,6 @@ class Actito
 
     public function __construct()
     {
-        $this->entity = config('actito.entity');
-        $this->key = config('actito.key');
-        $this->version = config('actito.version');
         $this->client = Http::acceptJson()
             ->withToken($this->bearerToken())
             ->baseUrl(config('actito.domain'))
@@ -58,6 +49,41 @@ class Actito
 
     private function bearerToken(): string
     {
-        return Http::withHeaders(['Authorization' => $this->key])->acceptJson()->get(config('actito.domain').'/auth/token')->json('accessToken');
+        return Http::withHeaders(['Authorization' => config('actito.key')])->acceptJson()->get(config('actito.domain').'/auth/token')->json('accessToken');
+    }
+
+    public function profile(): Profile
+    {
+        return $this->profile;
+    }
+
+    public function table(): Table
+    {
+        return $this->table;
+    }
+
+    public function email(): Email
+    {
+        return $this->email;
+    }
+
+    public function webhook(): Webhook
+    {
+        return $this->webhook;
+    }
+
+    public function action(): Action
+    {
+        return $this->action;
+    }
+
+    public function form(): Form
+    {
+        return $this->form;
+    }
+
+    public function import(): Import
+    {
+        return $this->import;
     }
 }

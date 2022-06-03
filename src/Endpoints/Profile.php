@@ -27,20 +27,16 @@ class Profile
 
     /**
      * @link https://developers.actito.com/api-reference/data-v4/#operation/profiles-get-one
+     * @param string $businessKey The business key of the profile or the key/value parameter
      */
-    public function find(array $queryParameters = []): Response
+    public function find(string $businessKey): Response
     {
-        $params = '';
-        if ($queryParameters) {
-            $params = '?'.Arr::query($queryParameters);
-        }
-
-        return $this->client->get('v4/entity/'.config('actito.entity').'/table/'.config('actito.profile_table')."/profile$params");
+        return $this->client->get('v4/entity/'.config('actito.entity').'/table/'.config('actito.profile_table')."/profile/$businessKey");
     }
 
     public function firstOrCreate(string $email, array $data): Response
     {
-        $response =  $this->find(['emailAddress' => $email]);
+        $response =  $this->find("emailAddress=$email");
 
         return $response->successful() ? $response : $this->updateOrCreate($data);
     }

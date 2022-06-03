@@ -38,7 +38,7 @@ class Action
     /**
      * @link https://developers.actito.com/api-reference/scenarios-v5/#operation/customactions-update-partial
      */
-    public function update(int $id, array $data): Response
+    public function update(string $id, array $data): Response
     {
         return $this->client->patch('v5/entities/'.config('actito.entity').'/custom-actions/'.$id, $data);
     }
@@ -46,7 +46,7 @@ class Action
     /**
      * @link https://developers.actito.com/api-reference/scenarios-v5/#operation/customactions-delete
      */
-    public function delete(int $id): Response
+    public function delete(string $id): Response
     {
         return $this->client->delete('v5/entities/'.config('actito.entity').'/custom-actions/'.$id);
     }
