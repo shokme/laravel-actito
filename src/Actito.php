@@ -47,7 +47,7 @@ class Actito
         $this->import = new Import($this->client);
     }
 
-    private function bearerToken(): string
+    private function bearerToken(): ?string
     {
         return Http::withHeaders(['Authorization' => config('actito.key')])->acceptJson()->get(config('actito.domain').'/auth/token')->json('accessToken');
     }
