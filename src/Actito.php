@@ -36,7 +36,7 @@ class Actito
             ->withToken($this->bearerToken())
             ->baseUrl(config('actito.domain'))
             ->timeout(config('actito.http.timeout'))
-            ->retry(config('actito.http.retry'),config('actito.http.retry_sleep'));
+            ->retry(config('actito.http.retry'),config('actito.http.retry_sleep'), throw: false);
 
         $this->profile = new Profile($this->client);
         $this->table = new Table($this->client);
