@@ -36,7 +36,18 @@ class Actito
             ->withToken($this->bearerToken())
             ->baseUrl(config('actito.domain'))
             ->timeout(config('actito.http.timeout'))
-            ->retry(config('actito.http.retry'),config('actito.http.retry_sleep'), throw: false);
+            ->retry(
+                config('actito.http.retry'),
+                config('actito.http.retry_sleep'),
+                function ($exception) {
+                    return $exception->response->status() !== 404;
+                },
+                false
+            );
+
+        if (config('actito.user_agent')) {
+            $this->client->withUserAgent(config('actito.user_agent'));
+        }
 
         $this->profile = new Profile($this->client);
         $this->table = new Table($this->client);
