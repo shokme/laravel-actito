@@ -29,6 +29,6 @@ class Email
             $profile = "emailAddress=$profile";
         }
 
-        return $this->client->post('v4/entity/'.config('actito.entity').'/mail'.$mail.'/profile/'.$profile, $data);
+        return $this->client->post('v4/entity/'.config('actito.entity').'/mail/'.$mail.'/profile/'.$profile, $data);
     }
 }
