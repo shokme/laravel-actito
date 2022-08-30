@@ -67,4 +67,33 @@ class Profile
     {
         return $this->client->delete('v4/entity/'.config('actito.entity').'/table/'.config('actito.profile_table').'/profile/userId='.$id);
     }
+
+    /**
+     * @link https://developers.actito.com/api-reference/data-v4/#operation/profiles-subscriptions-get-all
+     * @param string $businessKey The business key of the profile or the key/value parameter
+     */
+    public function subscriptions(string $businessKey): Response
+    {
+        return $this->client->get('v4/entity/'.config('actito.entity').'/table/'.config('actito.profile_table')."/profile/$businessKey/subscription");
+    }
+
+    /**
+     * @link https://developers.actito.com/api-reference/data-v4/#operation/profiles-subscriptions-add
+     * @param string $businessKey The business key of the profile or the key/value parameter
+     * @param string $subscriptionName The name of the subscription to subscribe
+     */
+    public function subscribe(string $businessKey, string $subscriptionName): Response
+    {
+        return $this->client->post('v4/entity/'.config('actito.entity').'/table/'.config('actito.profile_table')."/profile/$businessKey/subscription/$subscriptionName");
+    }
+
+    /**
+     * @link https://developers.actito.com/api-reference/data-v4/#operation/profiles-subscriptions-delete-one
+     * @param string $businessKey The business key of the profile or the key/value parameter
+     * @param string $subscriptionName The name of the subscription to unsubscribe
+     */
+    public function unsubscribe(string $businessKey, string $subscriptionName): Response
+    {
+        return $this->client->delete('v4/entity/'.config('actito.entity').'/table/'.config('actito.profile_table')."/profile/$businessKey/subscription/$subscriptionName");
+    }
 }
