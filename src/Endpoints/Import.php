@@ -19,7 +19,7 @@ class Import
      * @param  string  $table set 'profile' to import profile data else set '$table' name
      * @param  string|array  $config configuration array or file configuration path
      */
-    public function create(string $table, string $filePath, string|array $config, array $queryParameters): Response
+    public function create(string $table, string $filePath, string|array $config, array $queryParameters = []): Response
     {
         $table = $table === 'profile' ? 'table/'.config('actito.profile_table') : "customTable/$table";
         $data = $this->payload($filePath, $config);
