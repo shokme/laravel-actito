@@ -40,13 +40,15 @@ class Table
     {
         $payload = [];
 
-        if (isset($data['properties'])) {
-            foreach ($data['properties'] as $key => $value) {
-                $payload['properties'][] = [
-                    'name' => $key,
-                    'value' => $value
-                ];
-            }
+        if (! isset($data['properties'])) {
+            $data['properties'] = $data;
+        }
+
+        foreach ($data['properties'] as $key => $value) {
+            $payload['properties'][] = [
+                'name' => $key,
+                'value' => $value
+            ];
         }
 
         return $this->client->post('v4/entity/'.config('actito.entity').'/customTable/'.$table.'/record', $payload);
