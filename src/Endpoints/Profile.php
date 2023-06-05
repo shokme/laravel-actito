@@ -55,8 +55,17 @@ class Profile
         foreach ($data['attributes'] as $key => $value) {
             $payload['attributes'][] = [
                 'name' => $key,
-                'value' => $value
+                'value' => $value,
             ];
+        }
+
+        if (isset($data['subscriptions'])) {
+            foreach ($data['subscriptions'] as $key => $value) {
+                $payload['subscriptions'][] = [
+                    'name' => $key,
+                    'subscribe' => $value,
+                ];
+            }
         }
 
         return $this->client->post('v4/entity/'.config('actito.entity').'/table/'.config('actito.profile_table').'/profile', $payload);
