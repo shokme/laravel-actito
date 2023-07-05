@@ -3,6 +3,7 @@
 namespace Shokme\Actito;
 
 use Illuminate\Http\Client\PendingRequest;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Shokme\Actito\Endpoints\Action;
 use Shokme\Actito\Endpoints\Email;
@@ -60,7 +61,9 @@ class Actito
 
     private function bearerToken(): ?string
     {
-        return Http::withHeaders(['Authorization' => config('actito.key')])->acceptJson()->get(config('actito.domain').'/auth/token')->json('accessToken');
+        return Cache::remember('actito-bearer-token', 60 * 14, function() {
+            return Http::withHeaders(['Authorization' => config('actito.key')])->acceptJson()->get(config('actito.domain').'/auth/token')->json('accessToken');
+        });
     }
 
     public function profile(): Profile
