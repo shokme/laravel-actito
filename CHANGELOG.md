@@ -1,4 +1,7 @@
 # Changelog
+## 1.0.4
+### What's Changed
+- Caching the authorization token for 14 minutes (15 minutes is the default Actito validity)
 ## 1.0.3
 ### Added
 - When creating the profile, you can now add the subscriptions
