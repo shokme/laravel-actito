@@ -2,6 +2,7 @@
 
 namespace Shokme\Actito;
 
+use Exception;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
@@ -40,8 +41,15 @@ class Actito
             ->retry(
                 config('actito.http.retry'),
                 config('actito.http.retry_sleep'),
-                function ($exception) {
-                    return $exception->response->status() !== 404;
+                function (Exception $exception, PendingRequest $request) {
+                    if ($exception->response->status() === 404) {
+                        return false;
+                    }
+
+                    Cache::forget('actito-bearer-token');
+                    $request->withToken($this->bearerToken());
+
+                    return true;
                 },
                 false
             );
