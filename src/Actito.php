@@ -69,8 +69,13 @@ class Actito
 
     private function bearerToken(): ?string
     {
-        return Cache::remember('actito-bearer-token', 60 * 14, function() {
-            return Http::withHeaders(['Authorization' => config('actito.key')])->acceptJson()->get(config('actito.domain').'/auth/token')->json('accessToken');
+        return Cache::lock('actito-token-lock', 10)->block(5, function () {
+            return Cache::remember('actito-bearer-token', now()->addSeconds(700), function () {
+                return Http::withHeaders(['Authorization' => config('actito.key')])
+                    ->acceptJson()
+                    ->get(config('actito.domain') . '/auth/token')
+                    ->json('accessToken');
+            });
         });
     }
 
