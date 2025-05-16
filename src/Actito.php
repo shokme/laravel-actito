@@ -13,6 +13,7 @@ use Shokme\Actito\Endpoints\Import;
 use Shokme\Actito\Endpoints\Profile;
 use Shokme\Actito\Endpoints\Table;
 use Shokme\Actito\Endpoints\Webhook;
+use Illuminate\Support\Facades\Log;
 
 class Actito
 {
@@ -69,6 +70,7 @@ class Actito
 
     private function bearerToken(): ?string
     {
+        /*
         return Cache::lock('actito-token-lock', 10)->block(5, function () {
             return Cache::remember('actito-bearer-token', now()->addSeconds(700), function () {
                 return Http::withHeaders(['Authorization' => config('actito.key')])
@@ -76,6 +78,19 @@ class Actito
                     ->get(config('actito.domain') . '/auth/token')
                     ->json('accessToken');
             });
+        });
+        */
+        return Cache::remember('actito-bearer-token', now()->addSeconds(700), function () {
+            Log::info('Callback de remember exécuté');
+
+            $token = Http::withHeaders(['Authorization' => config('actito.key')])
+                ->acceptJson()
+                ->get(config('actito.domain') . '/auth/token')
+                ->json('accessToken');
+
+            Log::info('Nouveau token récupéré: ' . $token);
+
+            return $token;
         });
     }
 
