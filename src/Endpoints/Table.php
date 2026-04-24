@@ -22,7 +22,7 @@ class Table
             $params = '?'.Arr::query($queryParameters);
         }
 
-        return $this->client->get('v4/entity/'.config('actito.entity'.'/customTable/'.$table.'/record'.$params));
+        return $this->client->get('v4/entity/'.config('actito.entity').'/customTable/'.$table.'/record'.$params);
     }
 
     /**
@@ -30,7 +30,7 @@ class Table
      */
     public function find(string $table, string $businessKey): Response
     {
-        return $this->client->get('v4/entity/'.config('actito.entity'.'/customTable/'.$table.'/record/'.$businessKey));
+        return $this->client->get('v4/entity/'.config('actito.entity').'/customTable/'.$table.'/record/'.$businessKey);
     }
 
     /**

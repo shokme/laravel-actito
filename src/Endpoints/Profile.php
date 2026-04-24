@@ -42,33 +42,33 @@ class Profile
     }
 
     /**
-     * @link https://developers.actito.com/api-reference/data-v4#operation/profiles-createorupdate
+     * @link https://developers.actito.com/api-reference/data-v5/#operation/profiles-createorupdate
      */
     public function updateOrCreate(array $data): Response
     {
-        $payload = [];
+        $attributes = $data['attributes'] ?? $data;
 
-        if (! isset($data['attributes'])) {
-            $data['attributes'] = $data;
-        }
+        $payload = ['attributes' => $attributes];
 
-        foreach ($data['attributes'] as $key => $value) {
-            $payload['attributes'][] = [
-                'name' => $key,
-                'value' => $value,
-            ];
+        // v5 requires a key field to identify the profile for upsert.
+        // Explicit key takes priority, then we fall back to known business keys.
+        if (isset($data['key'])) {
+            $payload['key'] = $data['key'];
+        } elseif (isset($attributes['emailAddress'])) {
+            $payload['key'] = ['emailAddress' => $attributes['emailAddress']];
+        } elseif (isset($attributes['userId'])) {
+            $payload['key'] = ['userId' => $attributes['userId']];
         }
 
         if (isset($data['subscriptions'])) {
-            foreach ($data['subscriptions'] as $key => $value) {
-                $payload['subscriptions'][] = [
-                    'name' => $key,
-                    'subscribe' => $value,
-                ];
-            }
+            // v5 expects a flat object {"SubscriptionName": true|false}
+            $payload['subscriptions'] = $data['subscriptions'];
         }
 
-        return $this->client->post('v4/entity/'.config('actito.entity').'/table/'.config('actito.profile_table').'/profile', $payload);
+        return $this->client->put(
+            'v5/entities/'.config('actito.entity').'/profile-tables/'.config('actito.profile_table').'/profiles',
+            $payload
+        );
     }
 
     /**
